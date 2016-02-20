@@ -1,7 +1,7 @@
 OBJ = main.o
 TARGET = solver
-COMPILEOPT = -Wall -Wno-sign-compare -O2 -std=c++14 -fopenmp 
-LINKOPT = -fopenmp
+COMPILEOPT = -Wall -Wno-sign-compare -O2 -std=c++14
+LINKOPT = 
 
 .PHONY: all clean
 
