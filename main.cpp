@@ -99,5 +99,7 @@ int main(int argc, char** argv) {
 	else if (n == 12) exec<12>();
 	else if (n == 13) exec<13>();
 	else if (n == 14) exec<14>();
+	else if (n == 15) exec<15>();
+	else if (n == 16) exec<16>();
 	else cout << "specified N is not supported." << endl;
 }
