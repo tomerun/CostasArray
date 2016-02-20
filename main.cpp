@@ -14,7 +14,8 @@ class Solver {
 
 private:
 	array<int, N> ar;
-	array<bool, N> used = {};
+	array<bool, N> used_elem = {};
+	array<array<bool, 2 * N>, N> used_diff = {};
 	int ans_count = 0;
 
 	bool check() {
@@ -37,11 +38,31 @@ private:
 			return;
 		}
 		for (int i = 0; i < N; ++i) {
-			if (!used[i]) {
-				ar[depth] = i;
-				used[i] = true;
-				dfs(depth + 1);
-				used[i] = false;
+			if (used_elem[i]) continue;
+
+			bool conflict = false;
+			for (int j = 1; j <= depth; ++j) {
+				const int diff = ar[depth - j] - i;
+				if (used_diff[j][diff + N]) {
+					conflict = true;
+					// revert used_diff
+					for (int k = 1; k < j; ++k) {
+						const int revert_diff = ar[depth - k] - i;
+						used_diff[k][revert_diff + N] = false;
+					}
+					break;
+				}
+				used_diff[j][diff + N] = true;
+			}
+			if (conflict) continue;
+
+			ar[depth] = i;
+			used_elem[i] = true;
+			dfs(depth + 1);
+			used_elem[i] = false;
+			for (int j = 1; j <= depth; ++j) {
+				int diff = ar[depth - j] - i;
+				used_diff[j][diff + N] = false;
 			}
 		}
 	}
